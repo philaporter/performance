@@ -62,7 +62,7 @@ func buildResponse() string {
 			if ok {
 				// Compare the outer loop's retrieved value against each uuid value of the []string
 				if v == value {
-					// Once found, build
+					// Once found, add the value to uuid response map
 					uuid[i] = value
 				}
 			}
@@ -70,7 +70,6 @@ func buildResponse() string {
 	}
 
 	rs, _ := json.Marshal(uuid)
-	fmt.Println(string(rs))
 	return string(rs)
 }
 
@@ -91,7 +90,7 @@ func buildResponseV2() string {
 			if ok {
 				// Compare the outer loop's retrieved value against each value of the []UUID
 				if v == value {
-					// Once found, build
+					// Once found, add the value to uuid response map
 					uuid[i] = value
 					break
 				}
@@ -117,6 +116,7 @@ func buildResponseV3() string {
 		if ok {
 			s := convertString(v)
 			if contains(m.Match, s) {
+				// Once found, add the value to uuid response map
 				uuid[i] = s
 			}
 		}
