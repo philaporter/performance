@@ -92,7 +92,7 @@ func buildResponseV2() string {
 				if v == value {
 					// Once found, add the value to uuid response map
 					uuid[f] = value
-					break
+					//break
 				}
 			}
 		}
