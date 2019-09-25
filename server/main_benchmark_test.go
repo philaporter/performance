@@ -7,18 +7,12 @@ import (
 )
 
 /*
-	go test -run=XXX -bench=. -cpuprofile=c.p .
-	go test -run=XXX -bench=. -memprofile=m.p .
-	go test -run=XXX -bench=. -blockprofile=b.p .
+	go test -run=XXX -bench=. -benchtime=20x -cpu=1,2,4 -cpuprofile=c.p .
+	go test -run=XXX -bench=. -cpu=1,2,4 -memprofile=m.p .
+	go test -run=XXX -bench=. -cpu=1,2,4 -blockprofile=b.p .
  */
 
 var Result string
-
-/*
-		b.StopTimer()
-		Result++
-		b.StartTimer()
- */
 
 func BenchmarkBuildResponse(b *testing.B) {
 	b.StopTimer()
