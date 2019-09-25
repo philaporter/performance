@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 	_ "net/http/pprof"
-	m "performance/server/initialize"
+	i "performance/server/initialize"
 	"sort"
 	"time"
 )
@@ -21,8 +21,8 @@ type response struct {
 func main() {
 
 	// Get everything setup for the examples
-	m.Init()
-	sort.Strings(m.Match)
+	i.Init()
+	sort.Strings(i.Match)
 	<-time.After(time.Second * 1)
 
 	// Examples for explicit program profiling
@@ -41,11 +41,11 @@ func main() {
 // requestHandler is a trivial handler that always responds 200
 func requestHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(200)
-	fmt.Fprintf(w, "%s", buildResponseV3())
+	fmt.Fprintf(w, "%s", buildResponse())
 }
 
 // buildResponse uses nested loops to build a response object for the request handler.
-// Disclaimer: I'm intentionally making this as ridiculous.
+// Disclaimer: I'i intentionally making this ridiculous.
 // real    0m1.653s
 // user    0m0.494s
 // sys     0m0.018s
@@ -54,16 +54,16 @@ func buildResponse() string {
 	// uuid will contain the response initialize that we'll marshal and return as a string
 	uuid := make(map[int]string)
 	// Loop for the size of the sync.Map
-	for i := 0; i < m.Size; i++ {
+	for f := 0; f < i.Size; f++ {
 		// Range over the []string uuids
-		for _, value := range m.Match {
+		for _, value := range i.Match {
 			// Hash into the sync.Map using the outer loop's var as its index
-			v, ok := m.Lookup.Load(i)
+			v, ok := i.Lookup.Load(f)
 			if ok {
 				// Compare the outer loop's retrieved value against each uuid value of the []string
 				if v == value {
 					// Once found, add the value to uuid response map
-					uuid[i] = value
+					uuid[f] = value
 				}
 			}
 		}
@@ -82,16 +82,16 @@ func buildResponseV2() string {
 	// uuid will contain the response initialize that we'll marshal and return as a string
 	uuid := make(map[int]string)
 	// Loop for the size of the sync.Map
-	for i := 0; i < m.Size; i++ {
+	for f := 0; f < i.Size; f++ {
 		// Range over the []UUID
-		for _, value := range m.Match {
+		for _, value := range i.Match {
 			// Hash into the sync.Map using the outer loop's var as its index
-			v, ok := m.Lookup.Load(i)
+			v, ok := i.Lookup.Load(f)
 			if ok {
 				// Compare the outer loop's retrieved value against each value of the []UUID
 				if v == value {
 					// Once found, add the value to uuid response map
-					uuid[i] = value
+					uuid[f] = value
 					break
 				}
 			}
@@ -111,13 +111,13 @@ func buildResponseV3() string {
 	// uuid will contain the response initialize that we'll marshal and return as a string
 	uuid := make(map[int]string)
 
-	for i := 0; i < m.Size; i++ {
-		v, ok := m.Lookup.Load(i)
+	for f := 0; f < i.Size; f++ {
+		v, ok := i.Lookup.Load(f)
 		if ok {
 			s := convertString(v)
-			if contains(m.Match, s) {
+			if contains(i.Match, s) {
 				// Once found, add the value to uuid response map
-				uuid[i] = s
+				uuid[f] = s
 			}
 		}
 	}
@@ -126,7 +126,7 @@ func buildResponseV3() string {
 	return string(rs)
 }
 
-// contains is func I found online that
+// contains is func I found online that uses sort.SearchStrings on a previously sorted []string
 func contains(s []string, val string) bool {
 	i := sort.SearchStrings(s, val)
 	return i < len(s) && s[i] == val
