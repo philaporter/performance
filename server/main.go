@@ -45,7 +45,7 @@ func requestHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 // buildResponse uses nested loops to build a response object for the request handler.
-// Disclaimer: I'i intentionally making this ridiculous.
+// Disclaimer: I'm intentionally making this ridiculous.
 // real    0m1.653s
 // user    0m0.494s
 // sys     0m0.018s
